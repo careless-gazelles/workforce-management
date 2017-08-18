@@ -12,7 +12,10 @@ namespace BangazonWorkforceManagement.Models
         public int EmployeeId { get; set; }
         
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
 
         [Required]
         public int DepartmentId { get; set; }
