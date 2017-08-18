@@ -3,15 +3,15 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore; 
 using Microsoft.Extensions.DependencyInjection; 
 using BangazonWorkforceManagement.Models; 
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
  
-namespace BangazonWorkForceManagement.Data //Worked on by Ollie, August 18th, 2017
+namespace BangazonWorkforceManagement.Data //Worked on by Ollie, August 18th, 2017
 { 
     public static class DbInitializer 
     { 
         public static void Initialize(IServiceProvider serviceProvider) 
         { 
-            using (var context = new BangazonContext(serviceProvider.GetRequiredService<DbContextOptions<BangazonContext>>())) 
+            // using (var context = new BangazonContext(serviceProvider.GetRequiredService<DbContextOptions<BangazonContext>>())) 
             { 
                 if(context.Department.Any()) 
                 { 
@@ -91,7 +91,7 @@ namespace BangazonWorkForceManagement.Data //Worked on by Ollie, August 18th, 20
                         Name = "Pop Xans Like a Pro",
                         StartDate = 9/12/2017,
                         EndDate = 10/12/2017,
-                        MaxAttendees = 27
+                        MaxAttendees = 42
                     }
                 };
                 foreach (TrainingProgram t in trainingProgram)
@@ -102,40 +102,40 @@ namespace BangazonWorkForceManagement.Data //Worked on by Ollie, August 18th, 20
 
                 var trainingProgramEmp = new TrainingPgmEmp[]
                 {
-                    new TrainingProgramEmp()
+                    new TrainingPgmEmp()
                     {
                         EmployeeId = 1,
                         TrainingProgramId = 1
                     },
-                    new TrainingProgramEmp()
+                    new TrainingPgmEmp()
                     {
                         EmployeeId = 1,
                         TrainingProgramId = 2
                     },
-                    new TrainingProgramEmp()
+                    new TrainingPgmEmp()
                     {
                         EmployeeId = 1,
                         TrainingProgramId = 3
                     },
-                    new TrainingProgramEmp()
+                    new TrainingPgmEmp()
                     {
                         EmployeeId = 2,
                         TrainingProgramId = 2
                     },
-                    new TrainingProgramEmp()
+                    new TrainingPgmEmp()
                     {
                         EmployeeId = 2,
                         TrainingProgramId = 3
                     },
-                    new TrainingProgramEmp()
+                    new TrainingPgmEmp()
                     {
                         EmployeeId = 3,
                         TrainingProgramId = 3
                     }
                 };
-                foreach(TrainingProgramEmp z in trainingProgramEmp)
+                foreach(TrainingPgmEmp z in trainingProgramEmp)
                 {
-                    context.TrainingProgramEmp.Add(z);
+                    context.TrainingPgmEmp.Add(z);
                 }
                 context.SaveChanges();
             }
