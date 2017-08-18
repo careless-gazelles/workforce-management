@@ -7,11 +7,11 @@ using System.Threading.Tasks;
  
 namespace BangazonWorkforceManagement.Data //Worked on by Ollie, August 18th, 2017
 { 
-    public static class DbInitializer 
+    public static class DBInitializer 
     { 
         public static void Initialize(IServiceProvider serviceProvider) 
         { 
-            // using (var context = new BangazonContext(serviceProvider.GetRequiredService<DbContextOptions<BangazonContext>>())) 
+            using (var context = new BangazonWorkforceManagementContext(serviceProvider.GetRequiredService<DbContextOptions<BangazonWorkforceManagementContext>>())) 
             { 
                 if(context.Department.Any()) 
                 { 
@@ -75,28 +75,28 @@ namespace BangazonWorkforceManagement.Data //Worked on by Ollie, August 18th, 20
                     new TrainingProgram()
                     {
                         Name = "Halloween Scare Tactics",
-                        StartDate = 10/12/2017,
-                        EndDate = 10/26/2017,
+                        StartDate = new DateTime(2017, 10, 12),
+                        EndDate = new DateTime(2017, 10, 26),
                         MaxAttendees = 27
                     },
                     new TrainingProgram()
                     {
                         Name = "Thot Avoidance 101",
-                        StartDate = 7/12/2017,
-                        EndDate = 7/15/2017,
+                        StartDate = new DateTime(2017, 7, 12),
+                        EndDate = new DateTime(2017, 7, 15),
                         MaxAttendees = 99
                     },
                     new TrainingProgram()
                     {
                         Name = "Pop Xans Like a Pro",
-                        StartDate = 9/12/2017,
-                        EndDate = 10/12/2017,
+                        StartDate = new DateTime(2017, 9, 12),
+                        EndDate = new DateTime(2017, 12, 9),
                         MaxAttendees = 42
                     }
                 };
                 foreach (TrainingProgram t in trainingProgram)
                 {
-                    context.TraingProgram.Add(t);
+                    context.TrainingProgram.Add(t);
                 }
                 context.SaveChanges();
 

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using BangazonWorkforceManagement.Models;
+using BangazonWorkforceManagement.Data;
 
 namespace BangazonWorkforceManagement
 {
@@ -29,6 +32,9 @@ namespace BangazonWorkforceManagement
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddDbContext<BangazonWorkforceManagementContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("BangazonWorkforceManagementContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +53,8 @@ namespace BangazonWorkforceManagement
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            DBInitializer.Initialize(app.ApplicationServices);
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -56,5 +64,6 @@ namespace BangazonWorkforceManagement
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
     }
 }
