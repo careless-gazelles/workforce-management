@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +13,10 @@ namespace BangazonWorkforceManagement.Models
         [Required]
         public string Name { get; set;}
         [Required]
-        [DataType(DataType.Data)]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
         [Required]
-        [DataType(DataType.Data)]
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
         [Required]
         public int MaxAttendees { get; set; }
