@@ -100,7 +100,7 @@ namespace BangazonWorkForceManagement.Data //Worked on by Ollie, August 18th, 20
                 }
                 context.SaveChanges();
 
-                var trainingProgramEmp = new TrainingProgramEmp[]
+                var trainingProgramEmp = new TrainingPgmEmp[]
                 {
                     new TrainingProgramEmp()
                     {
