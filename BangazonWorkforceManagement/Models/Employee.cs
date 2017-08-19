@@ -26,6 +26,7 @@ namespace BangazonWorkforceManagement.Models
         public bool Supervisor { get; set; }
 
         public ICollection<TrainingPgmEmp> TrainingPgmEmps;
+        public ICollection<EmployeeComputer> EmployeeComputers;
 
         public Employee()
         {

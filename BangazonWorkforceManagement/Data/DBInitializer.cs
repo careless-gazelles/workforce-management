@@ -138,6 +138,33 @@ namespace BangazonWorkforceManagement.Data //Worked on by Ollie, August 18th, 20
                     context.TrainingPgmEmp.Add(z);
                 }
                 context.SaveChanges();
+
+                var computer = new Computer[]
+                {
+                    new Computer()
+                    {
+                        Manufacturer = "",
+                        Make = "",
+                        PurchaseDate = new DateTime(2017, 04, 20)
+                    }
+                };
+                foreach(Computer c in computer)
+                {
+                    context.Computer.Add(c);
+                }
+
+                var employeeComputer = new EmployeeComputer[]
+                {
+                    new EmployeeComputer()
+                    {
+                        EmployeeId = 1,
+                        ComputerId = 1
+                    }
+                };
+                foreach (EmployeeComputer ec in employeeComputer)
+                {
+                    context.EmployeeComputer.Add(ec);
+                }
             }
         }
     }
