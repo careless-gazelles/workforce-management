@@ -138,6 +138,63 @@ namespace BangazonWorkforceManagement.Data //Worked on by Ollie, August 18th, 20
                     context.TrainingPgmEmp.Add(z);
                 }
                 context.SaveChanges();
+
+                var computer = new Computer[]
+                {
+                    new Computer()
+                    {
+                        Manufacturer = "Apple",
+                        Make = "MacBook Pro",
+                        PurchaseDate = new DateTime(2017, 04, 20)
+                    },
+                    new Computer()
+                    {
+                        Manufacturer = "Dell",
+                        Make = "Inspiron",
+                        PurchaseDate = new DateTime(2017, 02, 8)
+                    },
+                    new Computer()
+                    {
+                        Manufacturer = "Lenovo",
+                        Make = "Yoga Pro 3",
+                        PurchaseDate = new DateTime(2017, 07, 10)
+                    },
+                    new Computer()
+                    {
+                        Manufacturer = "Toshiba",
+                        Make = "Whatever",
+                        PurchaseDate = new DateTime(2017, 08, 20)
+                    }
+                };
+                foreach(Computer c in computer)
+                {
+                    context.Computer.Add(c);
+                }
+                context.SaveChanges();
+
+                var employeeComputer = new EmployeeComputer[]
+                {
+                    new EmployeeComputer()
+                    {
+                        EmployeeId = 1,
+                        ComputerId = 1
+                    },
+                    new EmployeeComputer()
+                    {
+                        EmployeeId = 2,
+                        ComputerId = 2
+                    },
+                    new EmployeeComputer()
+                    {
+                        EmployeeId = 3,
+                        ComputerId = 3
+                    }
+                };
+                foreach (EmployeeComputer ec in employeeComputer)
+                {
+                    context.EmployeeComputer.Add(ec);
+                }
+                context.SaveChanges();
             }
         }
     }
