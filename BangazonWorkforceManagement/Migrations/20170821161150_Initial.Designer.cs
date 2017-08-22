@@ -8,7 +8,7 @@ using BangazonWorkforceManagement.Models;
 namespace BangazonWorkforceManagement.Migrations
 {
     [DbContext(typeof(BangazonWorkforceManagementContext))]
-    [Migration("20170818204750_Initial")]
+    [Migration("20170821161150_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
