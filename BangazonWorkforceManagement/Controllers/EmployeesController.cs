@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
+using BangazonWorkforceManagement.Models.ViewModels;
 
 namespace BangazonWorkforceManagement.Controllers
 {
@@ -21,7 +22,7 @@ namespace BangazonWorkforceManagement.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var bangazonWorkforceManagementContext = _context.Employee.Include(e => e.Departments);
+            var bangazonWorkforceManagementContext = _context.Employee.Include("Departments");
             return View(await bangazonWorkforceManagementContext.ToListAsync());
         }
 
@@ -76,13 +77,37 @@ namespace BangazonWorkforceManagement.Controllers
                 return NotFound();
             }
 
+            EmployeeEditViewModel viewModel = new EmployeeEditViewModel();
+
             var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
                 return NotFound();
             }
+            viewModel.Employee = employee;
+            //viewModel.Computers = new List<Computer>();
+
+            //new instance of the employeeComputer model with Computer attached to access. 
+            var empComputer = await _context.EmployeeComputer.Include("Computer").ToListAsync();
+            var currentEmpComputer = _context.EmployeeComputer.Include("Computer").Where(e => e.EmployeeId == id && e.EndDate == null).ToList();
+
+            var allComputers = await _context.Computer.ToListAsync();
+
+            foreach (EmployeeComputer x in empComputer)
+            {
+                //Checking to see if this computer is being used.
+                if (x.EndDate != null)
+                {
+                    allComputers.Remove(x.Computer);
+                 
+                }
+            }
+
+            viewModel.Computers = allComputers;
+            ViewData["ComputerId"] = new SelectList(viewModel.Computers, "ComputerId", "Make", null);
+
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+            return View(viewModel);
         }
 
         // POST: Employees/Edit/5
