@@ -57,7 +57,7 @@ namespace BangazonWorkforceManagement.Controllers
 
                 employeeView.AttendedPrograms = _context.TrainingProgram.Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate <= DateTime.Now).Select(t => t).ToList();
 
-                employeeView.NotAttendingPrograms = _context.TrainingProgram.(t => t.TrainingProgramId != item.TrainingProgramId && t.StartDate > DateTime.Now);
+                employeeView.NotAttendingPrograms = _context.TrainingProgram.Where(t => t.TrainingProgramId != item.TrainingProgramId && t.StartDate > DateTime.Now).Select(t => t).ToList();
             }
 
             return View(employeeView);
