@@ -37,6 +37,7 @@ namespace BangazonWorkforceManagement.Controllers
             var employee = await _context.Employee
                 .Include(e => e.Departments)
                 .Include(e => e.EmployeeComputers)
+                .Include(e => e.TrainingPgmEmps)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
@@ -49,7 +50,14 @@ namespace BangazonWorkforceManagement.Controllers
             {
                 var empComputer = _context.Computer.SingleOrDefault(c => c.ComputerId == item.ComputerId);
                 employeeView.ComputerList.Add(empComputer);
- 
+            }
+            foreach (var item in employee.TrainingPgmEmps)
+            {
+                employeeView.FuturePrograms = _context.TrainingProgram.Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate > DateTime.Now).Select(t => t).ToList();
+
+                employeeView.AttendedPrograms = _context.TrainingProgram.Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate <= DateTime.Now).Select(t => t).ToList();
+
+                employeeView.NotAttendingPrograms = _context.TrainingProgram.(t => t.TrainingProgramId != item.TrainingProgramId && t.StartDate > DateTime.Now);
             }
 
             return View(employeeView);
