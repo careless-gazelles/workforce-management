@@ -1,4 +1,4 @@
-@model BangazonWorkforceManagement.Models.Employee
+@model BangazonWorkforceManagement.ViewModels.EmployeeDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -32,13 +32,19 @@
             @Html.DisplayNameFor(model => model.Supervisor)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Supervisor)
+            @Html.DisplayFor(model => model.employee.Supervisor)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Departments)
+            @Html.DisplayNameFor(model => model.employeeDepartments)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Departments.Name)
+            @Html.DisplayFor(model => model.employee.Departments.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.EmployeeComputers)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.employee.EmployeeComputers)
         </dd>
     </dl>
 </div>
