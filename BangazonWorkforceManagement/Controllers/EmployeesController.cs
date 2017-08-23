@@ -53,11 +53,11 @@ namespace BangazonWorkforceManagement.Controllers
             }
             foreach (var item in employee.TrainingPgmEmps)
             {
-                employeeView.FuturePrograms = _context.TrainingProgram.Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate > DateTime.Now).Select(t => t).ToList();
+                employeeView.FuturePrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate > DateTime.Now).ToList();
 
-                employeeView.AttendedPrograms = _context.TrainingProgram.Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate <= DateTime.Now).Select(t => t).ToList();
+                employeeView.AttendedPrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate <= DateTime.Now).ToList();
 
-                employeeView.NotAttendingPrograms = _context.TrainingProgram.Where(t => t.TrainingProgramId != item.TrainingProgramId && t.StartDate > DateTime.Now).Select(t => t).ToList();
+                employeeView.NotAttendingPrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId != item.TrainingProgramId && t.StartDate > DateTime.Now).ToList();
             }
 
             return View(employeeView);
