@@ -25,8 +25,8 @@ namespace BangazonWorkforceManagement.Models
         public DateTime StartDate { get; set; }
         public bool Supervisor { get; set; }
 
-        public ICollection<TrainingPgmEmp> TrainingPgmEmps;
-        public ICollection<EmployeeComputer> EmployeeComputers;
+        public ICollection<TrainingPgmEmp> TrainingPgmEmps { get; set; }
+        public ICollection<EmployeeComputer> EmployeeComputers { get; set; }
 
         public Employee()
         {

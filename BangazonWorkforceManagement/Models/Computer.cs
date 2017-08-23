@@ -17,6 +17,6 @@ namespace BangazonWorkforceManagement.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime PurchaseDate { get; set; }
-        public ICollection<EmployeeComputer> EmployeeComputers;
+        public ICollection<EmployeeComputer> EmployeeComputers { get; set; }
     }
 }
