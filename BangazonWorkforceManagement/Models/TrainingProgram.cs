@@ -21,7 +21,7 @@ namespace BangazonWorkforceManagement.Models
         [Required]
         public int MaxAttendees { get; set; }
 
-        public ICollection <TrainingPgmEmp> TrainingProgramEmps;
+        public ICollection <TrainingPgmEmp> TrainingProgramEmps { get; set; }
 
     }
 }
