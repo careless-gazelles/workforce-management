@@ -8,11 +8,7 @@ namespace BangazonWorkforceManagement.ViewModels
 {
     public class EmployeeDetailViewModel
     {
-        public Employee employee { get; set; }
-        public List<Computer>ComputerList { get; set; }
-        public EmployeeDetailViewModel()
-        {
-            ComputerList = new List<Computer>();
-        }
+        public Employee Employee { get; set; }
+        public List<Computer> ComputerList { get; set; } = new List<Computer>();
     }
 }

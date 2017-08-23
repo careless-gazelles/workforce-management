@@ -44,7 +44,7 @@ namespace BangazonWorkforceManagement.Controllers
             }
 
             var employeeView = new EmployeeDetailViewModel();
-            employeeView.employee = employee;
+            employeeView.Employee = employee;
             foreach (var item in employee.EmployeeComputers)
             {
                 var empComputer = _context.Computer.SingleOrDefault(c => c.ComputerId == item.ComputerId);
