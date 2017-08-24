@@ -8,9 +8,10 @@ using BangazonWorkforceManagement.Models;
 namespace BangazonWorkforceManagement.Migrations
 {
     [DbContext(typeof(BangazonWorkforceManagementContext))]
-    partial class BangazonWorkforceManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20170824154741_DepartmentICollection")]
+    partial class DepartmentICollection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
