@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
 using BangazonWorkforceManagement.Models.ViewModels;
+using BangazonWorkforceManagement.ViewModels;
 
 namespace BangazonWorkforceManagement.Controllers
 {
@@ -36,20 +37,14 @@ namespace BangazonWorkforceManagement.Controllers
 
             var employee = await _context.Employee
                 .Include(e => e.Departments)
-<<<<<<< HEAD
-=======
                 .Include(e => e.EmployeeComputers)
                 .Include(e => e.TrainingPgmEmps)
->>>>>>> cd855f8df513cee1e14ac6bc6f868b84eaab4517
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
                 return NotFound();
             }
 
-<<<<<<< HEAD
-            return View(employee);
-=======
             var employeeView = new EmployeeDetailViewModel();
             employeeView.Employee = employee;
             foreach (var item in employee.EmployeeComputers)
@@ -100,7 +95,6 @@ namespace BangazonWorkforceManagement.Controllers
         private object EmployeeDetailViewModel()
         {
             throw new NotImplementedException();
->>>>>>> cd855f8df513cee1e14ac6bc6f868b84eaab4517
         }
 
         // GET: Employees/Create
