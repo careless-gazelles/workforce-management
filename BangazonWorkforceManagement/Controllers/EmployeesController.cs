@@ -51,14 +51,17 @@ namespace BangazonWorkforceManagement.Controllers
                 var empComputer = _context.Computer.SingleOrDefault(c => c.ComputerId == item.ComputerId);
                 employeeView.ComputerList.Add(empComputer);
             }
-            foreach (var item in employee.TrainingPgmEmps)
-            {
-                employeeView.FuturePrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate > DateTime.Now).ToList();
+            //foreach (var item in employee.TrainingPgmEmps)
+            //{
+                //var empTrainingPgm = _context.TrainingProgram.Include("TrainingPgmEmp").Where(t => t.TrainingProgramEmps. && t.StartDate > DateTime.Now).DefaultIfEmpty(new TrainingProgram() { Name = "No future training program" }).Single();
+                //employeeView.FuturePrograms.Add(empTrainingPgm);
 
-                employeeView.AttendedPrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId == item.TrainingProgramId && t.StartDate <= DateTime.Now).ToList();
+                
 
-                employeeView.NotAttendingPrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId != item.TrainingProgramId && t.StartDate > DateTime.Now).ToList();
-            }
+                employeeView.AttendedPrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId == item.TrainingProgramId && item.EmployeeId == id && t.StartDate <= DateTime.Now).ToList();
+
+                employeeView.NotAttendingPrograms = _context.TrainingProgram.Select(t => t).Where(t => t.TrainingProgramId != item.TrainingProgramId && item.EmployeeId == id && t.StartDate > DateTime.Now).ToList();
+            //}
 
             return View(employeeView);
         }
