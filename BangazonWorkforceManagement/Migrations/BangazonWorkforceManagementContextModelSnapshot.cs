@@ -82,7 +82,7 @@ namespace BangazonWorkforceManagement.Migrations
 
                     b.Property<int>("EmployeeId");
 
-                    b.Property<DateTime?>("EndDate");
+                    b.Property<DateTime>("EndDate");
 
                     b.Property<DateTime>("StartDate");
 

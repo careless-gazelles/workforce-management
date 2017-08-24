@@ -1,4 +1,4 @@
-@model BangazonWorkforceManagement.Models.Employee
+@model BangazonWorkforceManagement.Models.ViewModels.EmployeeEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,40 +11,47 @@
         <h4>Employee</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="EmployeeId" />
+    <input type="hidden" asp-for="Employee.EmployeeId" />
         <div class="form-group">
-            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <label asp-for="Employee.FirstName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <input asp-for="Employee.FirstName" class="form-control" readonly />
+                <span asp-validation-for="Employee.FirstName" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <label asp-for="Employee.LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <input asp-for="Employee.LastName" class="form-control" />
+                <span asp-validation-for="Employee.LastName" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="DepartmentId" class="control-label col-md-2"></label>
+            <label asp-for="Employee.DepartmentId" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                <select asp-for="Employee.DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+                <span asp-validation-for="Employee.DepartmentId" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="StartDate" class="col-md-2 control-label"></label>
+            <label asp-for="ComputerId" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <select asp-for="ComputerId" class="form-control" asp-items="ViewBag.ComputerId"></select>
+                <span asp-validation-for="ComputerId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Employee.StartDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Employee.StartDate" class="form-control" />
+                <span asp-validation-for="Employee.StartDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div class="checkbox">
-                    <input asp-for="Supervisor" />
-                    <label asp-for="Supervisor"></label>
+                    <input asp-for="Employee.Supervisor" />
+                    <label asp-for="Employee.Supervisor"></label>
                 </div>
             </div>
         </div>

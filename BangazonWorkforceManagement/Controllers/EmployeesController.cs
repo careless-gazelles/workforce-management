@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
+using BangazonWorkforceManagement.Models.ViewModels;
 using BangazonWorkforceManagement.ViewModels;
 
 namespace BangazonWorkforceManagement.Controllers
@@ -28,7 +29,7 @@ namespace BangazonWorkforceManagement.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var bangazonWorkforceManagementContext = _context.Employee.Include(e => e.Departments);
+            var bangazonWorkforceManagementContext = _context.Employee.Include("Departments");
             return View(await bangazonWorkforceManagementContext.ToListAsync());
         }
 
@@ -138,13 +139,43 @@ namespace BangazonWorkforceManagement.Controllers
                 return NotFound();
             }
 
+            EmployeeEditViewModel viewModel = new EmployeeEditViewModel();
+
             var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
                 return NotFound();
             }
+            viewModel.Employee = employee;
+            //viewModel.Computers = new List<Computer>();
+
+            //new instance of the employeeComputer model with Computer attached to access. 
+            var empComputer = await _context.EmployeeComputer.Include("Computer").ToListAsync();
+
+            var currentEmpComputer = await _context.EmployeeComputer.Include("Computer").Where(e => e.EmployeeId == id && e.EndDate == null).ToListAsync();
+
+            var allComputers = await _context.Computer.ToListAsync();
+
+            foreach (EmployeeComputer x in empComputer)
+            {
+                //Checking to see if this computer is being used.
+                if (x.EndDate == null)
+                {
+                    allComputers.Remove(x.Computer);
+                 
+                }
+            }
+
+            foreach (EmployeeComputer emp in currentEmpComputer)
+            {
+                allComputers.Add(emp.Computer);
+            }
+
+            viewModel.Computers = allComputers;
+            ViewData["ComputerId"] = new SelectList(viewModel.Computers, "ComputerId", "Make", null);
+
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+            return View(viewModel);
         }
 
         // POST: Employees/Edit/5
@@ -152,9 +183,9 @@ namespace BangazonWorkforceManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,DepartmentId,StartDate,Supervisor")] Employee employee)
+        public async Task<IActionResult> Edit(int id, EmployeeEditViewModel model)
         {
-            if (id != employee.EmployeeId)
+            if (id != model.Employee.EmployeeId)
             {
                 return NotFound();
             }
@@ -163,12 +194,12 @@ namespace BangazonWorkforceManagement.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(model.Employee);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.EmployeeId))
+                    if (!EmployeeExists(model.Employee.EmployeeId))
                     {
                         return NotFound();
                     }
@@ -179,8 +210,10 @@ namespace BangazonWorkforceManagement.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+        
+           
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", model.Employee.DepartmentId);
+            return View(model);
         }
 
         // GET: Employees/Delete/5
