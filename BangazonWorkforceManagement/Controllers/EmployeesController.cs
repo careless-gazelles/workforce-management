@@ -10,6 +10,12 @@ using BangazonWorkforceManagement.ViewModels;
 
 namespace BangazonWorkforceManagement.Controllers
 {
+    /* 
+    Class: EmployeesController 
+    Purpose: Control the Employee views and interact with the database as necessary
+    Author:  Adam + Ollie + Krissy 8/21 - 8-24 
+    */
+
     public class EmployeesController : Controller
     {
         private readonly BangazonWorkforceManagementContext _context;
@@ -45,17 +51,18 @@ namespace BangazonWorkforceManagement.Controllers
             }
 
             var employeeView = new EmployeeDetailViewModel();
+
             employeeView.Employee = employee;
+
             foreach (var item in employee.EmployeeComputers)
             {
                 var empComputer = _context.Computer.SingleOrDefault(c => c.ComputerId == item.ComputerId);
                 employeeView.ComputerList.Add(empComputer);
             }
+
             foreach (var item in employee.TrainingPgmEmps)
             {
-                //var empTrainingPgm = _context.TrainingProgram.Include("TrainingPgmEmp").Where(t => t.TrainingProgramEmps. && t.StartDate > DateTime.Now).DefaultIfEmpty(new TrainingProgram() { Name = "No future training program" }).Single();
-                //employeeView.FuturePrograms.Add(empTrainingPgm);
-
+                // Queries DB for training program employee plans to attend
                 var fp = from tp in _context.TrainingPgmEmp
                          join t in _context.TrainingProgram
                          on tp.TrainingProgramId equals t.TrainingProgramId
@@ -64,6 +71,7 @@ namespace BangazonWorkforceManagement.Controllers
 
                 employeeView.FuturePrograms = fp.ToList();
 
+                // Queries DB for training program employee has attended
                 var ap = from tp in _context.TrainingPgmEmp
                          join t in _context.TrainingProgram
                          on tp.TrainingProgramId equals t.TrainingProgramId
@@ -73,11 +81,13 @@ namespace BangazonWorkforceManagement.Controllers
                 employeeView.AttendedPrograms = ap.ToList();
             }
 
-            foreach(var item in _context.TrainingProgram)
+            // Gets a list of all training programs. Removes training programs employee plans to attend from the list
+            foreach (var item in _context.TrainingProgram)
             {
                 var nap = from t in _context.TrainingProgram
                           where t.StartDate > DateTime.Now
                           select t;
+
                 var napList = nap.ToList();
 
                 foreach (var pgm in employeeView.FuturePrograms)
