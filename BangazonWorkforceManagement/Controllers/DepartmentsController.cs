@@ -33,6 +33,7 @@ namespace BangazonWorkforceManagement.Controllers
             }
 
             var department = await _context.Department
+                .Include(d => d.Employees)
                 .SingleOrDefaultAsync(m => m.DepartmentId == id);
             if (department == null)
             {
@@ -40,7 +41,9 @@ namespace BangazonWorkforceManagement.Controllers
             }
 
             return View(department);
+
         }
+
 
         // GET: Departments/Create
         public IActionResult Create()

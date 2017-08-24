@@ -36,13 +36,71 @@ namespace BangazonWorkforceManagement.Controllers
 
             var employee = await _context.Employee
                 .Include(e => e.Departments)
+<<<<<<< HEAD
+=======
+                .Include(e => e.EmployeeComputers)
+                .Include(e => e.TrainingPgmEmps)
+>>>>>>> cd855f8df513cee1e14ac6bc6f868b84eaab4517
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
                 return NotFound();
             }
 
+<<<<<<< HEAD
             return View(employee);
+=======
+            var employeeView = new EmployeeDetailViewModel();
+            employeeView.Employee = employee;
+            foreach (var item in employee.EmployeeComputers)
+            {
+                var empComputer = _context.Computer.SingleOrDefault(c => c.ComputerId == item.ComputerId);
+                employeeView.ComputerList.Add(empComputer);
+            }
+            foreach (var item in employee.TrainingPgmEmps)
+            {
+                //var empTrainingPgm = _context.TrainingProgram.Include("TrainingPgmEmp").Where(t => t.TrainingProgramEmps. && t.StartDate > DateTime.Now).DefaultIfEmpty(new TrainingProgram() { Name = "No future training program" }).Single();
+                //employeeView.FuturePrograms.Add(empTrainingPgm);
+
+                var fp = from tp in _context.TrainingPgmEmp
+                         join t in _context.TrainingProgram
+                         on tp.TrainingProgramId equals t.TrainingProgramId
+                         where t.StartDate > DateTime.Now && tp.EmployeeId == id
+                         select tp.TrainingProgram;
+
+                employeeView.FuturePrograms = fp.ToList();
+
+                var ap = from tp in _context.TrainingPgmEmp
+                         join t in _context.TrainingProgram
+                         on tp.TrainingProgramId equals t.TrainingProgramId
+                         where t.StartDate < DateTime.Now && tp.EmployeeId == id
+                         select tp.TrainingProgram;
+
+                employeeView.AttendedPrograms = ap.ToList();
+            }
+
+            foreach(var item in _context.TrainingProgram)
+            {
+                var nap = from t in _context.TrainingProgram
+                          where t.StartDate > DateTime.Now
+                          select t;
+                var napList = nap.ToList();
+
+                foreach (var pgm in employeeView.FuturePrograms)
+                {
+                    napList.Remove(pgm);
+                }
+
+                employeeView.NotAttendingPrograms = napList;
+            }
+
+            return View(employeeView);
+        }
+
+        private object EmployeeDetailViewModel()
+        {
+            throw new NotImplementedException();
+>>>>>>> cd855f8df513cee1e14ac6bc6f868b84eaab4517
         }
 
         // GET: Employees/Create
