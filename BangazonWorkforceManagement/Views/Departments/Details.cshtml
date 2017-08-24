@@ -1,5 +1,6 @@
 @model BangazonWorkforceManagement.Models.Department
 
+    <!--Worked on by Kathy & Joey, 8/23, 8/24-->
 
 @{
     ViewData["Title"] = "Details";
@@ -16,7 +17,7 @@
         <dd>
             @foreach (var x in Model.Employees)
             {
-                { <p>EmployeeId: @x.EmployeeId, @x.FirstName, @x.LastName</p><br />}
+                {<p><b>Employee:</b> @x.FirstName @x.LastName, <b>Employee ID:</b> @x.EmployeeId</p><br />}
             }
 
         </dd>
