@@ -40,6 +40,27 @@
         <dd>
             @Html.DisplayFor(model => model.Departments.Name)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FuturePrograms)
+        </dt>
+        <dd>
+            @foreach (var x in Model.FuturePrograms)
+            {<p>@x.Name</p><br />}
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AttendedPrograms)
+        </dt>
+        <dd>
+            @foreach (var x in Model.AttendedPrograms)
+            {<p>@x.Name @x.StartDate @x.EndDate</p><br />}
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NotAttendingPrograms)
+        </dt>
+        <dd>
+            @foreach (var x in Model.NotAttendingPrograms)
+            {<p>@x.Name @x.StartDate @x.EndDate</p><br />}
+        </dd>
     </dl>
 </div>
 <div>
