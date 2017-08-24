@@ -8,6 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
 
 namespace BangazonWorkforceManagement.Controllers
+/**
+* Class: DepartmentController
+* Purpose: The DepartmentController class is used to interact with the Department table in the SQL database.
+* Author: Built through scaffolding, Joey and Kathy worked on Department/Details.cshtml
+*/
 {
     public class DepartmentsController : Controller
     {
