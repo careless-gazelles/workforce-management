@@ -97,11 +97,16 @@ namespace BangazonWorkforceManagement.Controllers
             foreach (EmployeeComputer x in empComputer)
             {
                 //Checking to see if this computer is being used.
-                if (x.EndDate != null)
+                if (x.EndDate == null)
                 {
                     allComputers.Remove(x.Computer);
                  
                 }
+            }
+
+            foreach (EmployeeComputer emp in currentEmpComputer)
+            {
+                allComputers.Add(emp.Computer);
             }
 
             viewModel.Computers = allComputers;
@@ -128,7 +133,6 @@ namespace BangazonWorkforceManagement.Controllers
                 try
                 {
                     _context.Update(model.Employee);
-                  //  _context.Update(model.EmployeeComputer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
