@@ -148,6 +148,7 @@ namespace BangazonWorkforceManagement.Controllers
                 }
                 return RedirectToAction("Index");
             }
+        
            
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", model.Employee.DepartmentId);
             return View(model);
