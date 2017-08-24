@@ -8,6 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
 
 namespace BangazonWorkforceManagement.Controllers
+/**
+* Class: ComputerController
+* Purpose: The ComputerController class is used to interact with the Computer table in the SQL database.
+* Built through scaffolding.
+*/
 {
     public class ComputersController : Controller
     {

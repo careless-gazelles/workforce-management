@@ -10,6 +10,11 @@ using BangazonWorkforceManagement.Models;
 namespace BangazonWorkforceManagement.Controllers
 {
     public class TrainingProgramsController : Controller
+    /**
+    * Class: TrainingProgramsController
+    * Purpose: The TrainingProgramsController class is used to interact with the Training Programs table in the SQL database.
+    * Built through scaffolding.
+    */
     {
         private readonly BangazonWorkforceManagementContext _context;
 

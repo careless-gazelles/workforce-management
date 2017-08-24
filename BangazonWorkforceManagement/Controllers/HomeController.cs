@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace BangazonWorkforceManagement.Controllers
 {
     public class HomeController : Controller
+    /**
+    * Class: HomeController
+    * Purpose: The HomeController class displays the home page.
+    * Built through scaffolding.
+    */
     {
         public IActionResult Index()
         {
