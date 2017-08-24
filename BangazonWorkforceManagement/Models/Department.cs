@@ -13,5 +13,6 @@ namespace BangazonWorkforceManagement.Models
         [Required]
         public string Name { get; set; }
         public double? Budget { get; set; }
+        public object Employee { get; internal set; }
     }
 }

@@ -1,4 +1,5 @@
-@model BangazonWorkforceManagement.Models.Department
+@model BangazonWorkforceManagement.ViewModels.DepartmentDetailViewModel
+
 
 @{
     ViewData["Title"] = "Details";
@@ -7,18 +8,23 @@
 <h2>Department Details</h2>
 
 <div>
-    <h3>@Html.DisplayFor(model => model.Name)</h3>
+    <h3>@Html.DisplayFor(model => model.Department.Name)</h3>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Employees)
-        </dt>
+]
         <dd>
-            @Html.DisplayFor(model => model.Employee)
+            @Html.DisplayFor(model => model.Department.Employee)
+        </dd>
+        <dd>
+            @foreach (var x in Model.EmployeeList)
+            {
+                { <p>EmployeeId: @x.EmployeeId, @x.FirstName, @x.LastName</p><br />}
+            }
+
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.DepartmentId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Department.DepartmentId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

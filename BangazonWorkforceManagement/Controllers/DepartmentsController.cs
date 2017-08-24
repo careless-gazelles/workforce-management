@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
+using BangazonWorkforceManagement.ViewModels;
 
 namespace BangazonWorkforceManagement.Controllers
 {
@@ -33,13 +34,28 @@ namespace BangazonWorkforceManagement.Controllers
             }
 
             var department = await _context.Department
+                .Include(d => d.Employee)
+                .Include(d => d.Department)
                 .SingleOrDefaultAsync(m => m.DepartmentId == id);
             if (department == null)
             {
                 return NotFound();
             }
 
-            return View(department);
+            var deptartmentView = new DepartmentDetailViewModel();
+            departmentView.Department = department;
+            foreach (var item in department)
+            {
+                var empDept = _context.Department.SingleOrDefault(d => d.DepartmentId == item.DepartmentId);
+                departmentView.EmployeeList.Add(empDept);
+            }
+
+            return View(departmentView);
+        }
+
+        private object DepartmentDetailViewModel()
+        {
+            throw new NotImplementedException();
         }
 
         // GET: Departments/Create
