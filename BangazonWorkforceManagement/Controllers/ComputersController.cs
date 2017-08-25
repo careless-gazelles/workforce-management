@@ -143,8 +143,16 @@ namespace BangazonWorkforceManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var employeeComp = await _context.EmployeeComputer.FirstOrDefaultAsync(m => m.ComputerId == id);
             var computer = await _context.Computer.SingleOrDefaultAsync(m => m.ComputerId == id);
-            _context.Computer.Remove(computer);
+            if (employeeComp == null)
+            {
+                _context.Computer.Remove(computer);
+            }
+            if (employeeComp != null)
+            {
+                ViewData["NoDelete"] = "Cannot delete this computer";
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }

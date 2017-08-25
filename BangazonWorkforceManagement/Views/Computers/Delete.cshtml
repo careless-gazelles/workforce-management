@@ -6,6 +6,11 @@
 
 <h2>Delete</h2>
 
+@if (Model == null)
+{
+    <h1>ViewData["NoDelete"]</h1>
+}
+
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Computer</h4>
