@@ -22,3 +22,8 @@ On e.EmployeeId = tp.EmployeeId
 where e.EmployeeId = 2 or e.EmployeeId is NULL
 and t.StartDate >= GETDATE() 
 )x  where x.Employee is NULL
+
+select * 
+From Computer, EmployeeComputer
+Where Computer.ComputerId = 4
+And EmployeeComputer.ComputerId = 4
