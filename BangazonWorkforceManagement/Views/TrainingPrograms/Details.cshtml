@@ -1,4 +1,4 @@
-@model BangazonWorkforceManagement.Models.TrainingProgram
+@model BangazonWorkforceManagement.ViewModels.TrainingProgramDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,32 +11,38 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.TrainingProgram.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.TrainingProgram.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.TrainingProgram.StartDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.TrainingProgram.StartDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.TrainingProgram.EndDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.EndDate)
+            @Html.DisplayFor(model => model.TrainingProgram.EndDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.MaxAttendees)
+            @Html.DisplayNameFor(model => model.TrainingProgram.MaxAttendees)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.MaxAttendees)
+            @Html.DisplayFor(model => model.TrainingProgram.MaxAttendees)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeesAttending)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmployeesAttending)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.TrainingProgramId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.TrainingProgram.TrainingProgramId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
+using BangazonWorkforceManagement.ViewModels;
 
 namespace BangazonWorkforceManagement.Controllers
 {
@@ -39,7 +40,11 @@ namespace BangazonWorkforceManagement.Controllers
                 return NotFound();
             }
 
-            return View(trainingProgram);
+            var trainingProgramView = new TrainingProgramDetailViewModel();
+
+            trainingProgramView.TrainingProgram = trainingProgram;
+
+            return View(trainingProgramView);
         }
 
         // GET: TrainingPrograms/Create
