@@ -161,6 +161,11 @@ namespace BangazonWorkforceManagement.Controllers
 
                 var allComputers = await _context.Computer.ToListAsync();
 
+                foreach (EmployeeComputer emp in currentEmpComputer)
+                {
+                    allComputers.Add(emp.Computer);
+                }
+
                 foreach (EmployeeComputer x in empComputer)
                 {
                     //Checking to see if this computer is being used.
@@ -169,11 +174,6 @@ namespace BangazonWorkforceManagement.Controllers
                         allComputers.Remove(x.Computer);
 
                     }
-                }
-
-                foreach (EmployeeComputer emp in currentEmpComputer)
-                {
-                    allComputers.Add(emp.Computer);
                 }
 
                 viewModel.Computers = allComputers;
