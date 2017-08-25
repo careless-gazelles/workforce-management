@@ -58,7 +58,12 @@ namespace BangazonWorkforceManagement.Controllers
             foreach (var item in employee.EmployeeComputers)
             {
                 var empComputer = _context.Computer.SingleOrDefault(c => c.ComputerId == item.ComputerId);
-                employeeView.ComputerList.Add(empComputer);
+
+                if (item.EndDate == null)
+                {
+                    employeeView.ComputerList.Add(empComputer);
+                }
+               
             }
 
             foreach (var item in employee.TrainingPgmEmps)
@@ -148,7 +153,6 @@ namespace BangazonWorkforceManagement.Controllers
                 return NotFound();
             }
                 viewModel.Employee = employee;
-                //viewModel.Computers = new List<Computer>();
 
                 //new instance of the employeeComputer model with Computer attached to access. 
                 var empComputer = await _context.EmployeeComputer.Include("Computer").ToListAsync();
@@ -201,14 +205,19 @@ namespace BangazonWorkforceManagement.Controllers
                         //Creating a New Instance of EMpID from the EditViewModel and a new Instance of computerId from the model
                         EmployeeId = model.Employee.EmployeeId,
                         ComputerId = model.ComputerId,
+                        // Add today's date as the StartDate - Ollie
                         StartDate = DateTime.Now
                     };
 
+                    // Get Employees current Computer - Ollie
                     var currentEmpComputer = await _context.EmployeeComputer.SingleOrDefaultAsync(e => e.EmployeeId == id && e.EndDate == null);
 
+                    // Change the EndDate from NULL to the current Date - Ollie
                     currentEmpComputer.EndDate = DateTime.Now;
 
                     _context.Update(model.Employee);
+
+                    // Update the EndDate in the DB - Ollie
                     _context.Update(currentEmpComputer);
                     _context.Add(newEmpComp);
                     await _context.SaveChangesAsync();
