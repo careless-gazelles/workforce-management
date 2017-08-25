@@ -161,6 +161,11 @@ namespace BangazonWorkforceManagement.Controllers
 
                 var allComputers = await _context.Computer.ToListAsync();
 
+                foreach (EmployeeComputer emp in currentEmpComputer)
+                {
+                    allComputers.Add(emp.Computer);
+                }
+
                 foreach (EmployeeComputer x in empComputer)
                 {
                     //Checking to see if this computer is being used.
@@ -171,13 +176,8 @@ namespace BangazonWorkforceManagement.Controllers
                     }
                 }
 
-                foreach (EmployeeComputer emp in currentEmpComputer)
-                {
-                    allComputers.Add(emp.Computer);
-                }
-
                 viewModel.Computers = allComputers;
-                ViewData["ComputerId"] = new SelectList(viewModel.Computers, "ComputerId", "Make", null);
+                ViewData["ComputerId"] = new SelectList(viewModel.Computers, "ComputerId", "Make", "Manufacturer");
 
                 ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
             return View(viewModel);
@@ -212,14 +212,29 @@ namespace BangazonWorkforceManagement.Controllers
                     // Get Employees current Computer - Ollie
                     var currentEmpComputer = await _context.EmployeeComputer.SingleOrDefaultAsync(e => e.EmployeeId == id && e.EndDate == null);
 
-                    // Change the EndDate from NULL to the current Date - Ollie
-                    currentEmpComputer.EndDate = DateTime.Now;
-
+                    // Checks if they have a computer assigned
+                    if(currentEmpComputer != null)
+                    {
+                        // If they do. It then checks if the selected computer is different from their currently assigned computer
+                        if (currentEmpComputer.ComputerId != model.ComputerId)
+                        {
+                            // If it is not the same
+                            // Change the EndDate from NULL to the current Date - Ollie
+                            currentEmpComputer.EndDate = DateTime.Now;
+                            // Update the EndDate in the DB - Ollie
+                            _context.Update(currentEmpComputer);
+                            // Add the new computer
+                            _context.Add(newEmpComp);
+                        }
+                    }
+                    else
+                    {
+                        // If they don't have a computer in the DB just add the new one
+                        _context.Add(newEmpComp);
+                    }
+                   
                     _context.Update(model.Employee);
 
-                    // Update the EndDate in the DB - Ollie
-                    _context.Update(currentEmpComputer);
-                    _context.Add(newEmpComp);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
