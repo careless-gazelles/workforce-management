@@ -203,7 +203,7 @@ namespace BangazonWorkforceManagement.Controllers
                     EmployeeComputer newEmpComp = new EmployeeComputer()
                     {
                         //Creating a New Instance of EMpID from the EditViewModel and a new Instance of computerId from the model
-                        EmployeeId = model.Employee.EmployeeId,
+                        EmployeeId = id,
                         ComputerId = model.ComputerId,
                         // Add today's date as the StartDate - Ollie
                         StartDate = DateTime.Now
