@@ -27,6 +27,10 @@ textarea {
 }
 */
 
+#main-links {
+    align-content: center;
+}
+
 /* Footer */
 footer {
     background-color: black;
@@ -34,7 +38,11 @@ footer {
     text-align: center;
     margin-top: 105px;
     width: 100%;
-    position: absolute;
+}
+
+.footer-p {
+    width: 100%;
+    margin-top: 100px;
 }
 
 
