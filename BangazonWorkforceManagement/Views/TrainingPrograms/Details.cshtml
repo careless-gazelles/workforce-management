@@ -38,10 +38,15 @@
             @Html.DisplayNameFor(model => model.EmployeesAttending)
         </dt>
         <dd>
-            @foreach(var employee in Model.EmployeesAttending)
+            @if (Model.EmployeesAttending != null)
             {
-                <p>@employee.FirstName @employee.LastName</p>
+                @foreach (var employee in Model.EmployeesAttending)
+                {
+                    <p>@employee.FirstName @employee.LastName</p>
+                }
+
             }
+            
         </dd>
     </dl>
 </div>
