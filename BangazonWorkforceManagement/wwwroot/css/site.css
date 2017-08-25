@@ -27,9 +27,12 @@ textarea {
 
 /* Footer */
 footer {
-    display: table-row;
-    height: 1px;
+    background-color: black;
+    color: white; 
+    text-align: center;
+
 }
+
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
