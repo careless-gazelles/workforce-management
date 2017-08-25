@@ -200,9 +200,16 @@ namespace BangazonWorkforceManagement.Controllers
                     {
                         //Creating a New Instance of EMpID from the EditViewModel and a new Instance of computerId from the model
                         EmployeeId = model.Employee.EmployeeId,
-                        ComputerId = model.ComputerId
+                        ComputerId = model.ComputerId,
+                        StartDate = DateTime.Now
                     };
+
+                    var currentEmpComputer = await _context.EmployeeComputer.SingleOrDefaultAsync(e => e.EmployeeId == id && e.EndDate == null);
+
+                    currentEmpComputer.EndDate = DateTime.Now;
+
                     _context.Update(model.Employee);
+                    _context.Update(currentEmpComputer);
                     _context.Add(newEmpComp);
                     await _context.SaveChangesAsync();
                 }
