@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BangazonWorkforceManagement.Models;
 using BangazonWorkforceManagement.ViewModels;
+using BangazonWorkforceManagement.Models.ViewModels;
 
 namespace BangazonWorkforceManagement.Controllers
 {
@@ -57,7 +58,12 @@ namespace BangazonWorkforceManagement.Controllers
             foreach (var item in employee.EmployeeComputers)
             {
                 var empComputer = _context.Computer.SingleOrDefault(c => c.ComputerId == item.ComputerId);
-                employeeView.ComputerList.Add(empComputer);
+
+                if (item.EndDate == null)
+                {
+                    employeeView.ComputerList.Add(empComputer);
+                }
+               
             }
 
             foreach (var item in employee.TrainingPgmEmps)
@@ -130,6 +136,7 @@ namespace BangazonWorkforceManagement.Controllers
             return View(employee);
         }
 
+     
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -138,23 +145,53 @@ namespace BangazonWorkforceManagement.Controllers
                 return NotFound();
             }
 
+            EmployeeEditViewModel viewModel = new EmployeeEditViewModel();
+
             var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+                viewModel.Employee = employee;
+
+                //new instance of the employeeComputer model with Computer attached to access. 
+                var empComputer = await _context.EmployeeComputer.Include("Computer").ToListAsync();
+
+                var currentEmpComputer = await _context.EmployeeComputer.Include("Computer").Where(e => e.EmployeeId == id && e.EndDate == null).ToListAsync();
+
+                var allComputers = await _context.Computer.ToListAsync();
+
+                foreach (EmployeeComputer emp in currentEmpComputer)
+                {
+                    allComputers.Add(emp.Computer);
+                }
+
+                foreach (EmployeeComputer x in empComputer)
+                {
+                    //Checking to see if this computer is being used.
+                    if (x.EndDate == null)
+                    {
+                        allComputers.Remove(x.Computer);
+
+                    }
+                }
+
+                viewModel.Computers = allComputers;
+                ViewData["ComputerId"] = new SelectList(viewModel.Computers, "ComputerId", "Make", null);
+
+                ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
+            return View(viewModel);
         }
+
 
         // POST: Employees/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,DepartmentId,StartDate,Supervisor")] Employee employee)
+        public async Task<IActionResult> Edit(int id, EmployeeEditViewModel model)
         {
-            if (id != employee.EmployeeId)
+            if (id != model.Employee.EmployeeId)
             {
                 return NotFound();
             }
@@ -163,12 +200,31 @@ namespace BangazonWorkforceManagement.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    EmployeeComputer newEmpComp = new EmployeeComputer()
+                    {
+                        //Creating a New Instance of EMpID from the EditViewModel and a new Instance of computerId from the model
+                        EmployeeId = model.Employee.EmployeeId,
+                        ComputerId = model.ComputerId,
+                        // Add today's date as the StartDate - Ollie
+                        StartDate = DateTime.Now
+                    };
+
+                    // Get Employees current Computer - Ollie
+                    var currentEmpComputer = await _context.EmployeeComputer.SingleOrDefaultAsync(e => e.EmployeeId == id && e.EndDate == null);
+
+                    // Change the EndDate from NULL to the current Date - Ollie
+                    currentEmpComputer.EndDate = DateTime.Now;
+
+                    _context.Update(model.Employee);
+
+                    // Update the EndDate in the DB - Ollie
+                    _context.Update(currentEmpComputer);
+                    _context.Add(newEmpComp);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.EmployeeId))
+                    if (!EmployeeExists(model.Employee.EmployeeId))
                     {
                         return NotFound();
                     }
@@ -179,8 +235,10 @@ namespace BangazonWorkforceManagement.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+
+
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", model.Employee.DepartmentId);
+            return View(model);
         }
 
         // GET: Employees/Delete/5
