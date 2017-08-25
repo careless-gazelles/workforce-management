@@ -6,11 +6,13 @@
 
 <h2>Delete</h2>
 
-@if (Model == null)
+@if (Model.Make == "Cannot delete")
 {
-    <h1>ViewData["NoDelete"]</h1>
+    <h1>This computer is already assigned to an employee</h1>
 }
 
+else
+{
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Computer</h4>
@@ -44,3 +46,4 @@
         </div>
     </form>
 </div>
+}
