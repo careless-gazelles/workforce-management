@@ -11,7 +11,7 @@ namespace BangazonWorkforceManagement.Controllers
 /**
 * Class: ComputerController
 * Purpose: The ComputerController class is used to interact with the Computer table in the SQL database.
-* Built through scaffolding.
+* Author: Built through scaffolding, Adam worked on GET: Computers/Delete/5
 */
 {
     public class ComputersController : Controller
@@ -127,12 +127,15 @@ namespace BangazonWorkforceManagement.Controllers
             {
                 return NotFound();
             }
-
+            // get ComputerId from Computer
             var computer = await _context.Computer.SingleOrDefaultAsync(m => m.ComputerId == id);
+            // get ComputerId from EmployeeComputer
             var employeeComp = await _context.EmployeeComputer.FirstOrDefaultAsync(m => m.ComputerId == id);
 
+            // employeeComp will not be null if it has been assigned to an employee
             if (employeeComp != null)
             {
+                //Assigned this in order to use an if/else statment in Computers/Delete.cshtml
                 computer.Make = "Cannot delete";
             }
 
