@@ -34,6 +34,7 @@ namespace BangazonWorkforceManagement.Controllers
             }
 
             var trainingProgram = await _context.TrainingProgram
+                .Include(t => t.TrainingProgramEmps)
                 .SingleOrDefaultAsync(m => m.TrainingProgramId == id);
             if (trainingProgram == null)
             {
@@ -43,6 +44,16 @@ namespace BangazonWorkforceManagement.Controllers
             var trainingProgramView = new TrainingProgramDetailViewModel();
 
             trainingProgramView.TrainingProgram = trainingProgram;
+
+            foreach(var program in trainingProgram.TrainingProgramEmps)
+            {
+                trainingProgramView.EmployeesAttending = (from tp in _context.TrainingPgmEmp
+                                                          join e in _context.Employee
+                                                          on tp.EmployeeId equals e.EmployeeId
+                                                          where tp.TrainingProgramId == id
+                                                          select tp.Employee
+                                                          ).ToList();
+            }
 
             return View(trainingProgramView);
         }
